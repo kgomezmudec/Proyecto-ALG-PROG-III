@@ -16,12 +16,11 @@ int main(){
      * 
      */
 
-    int entradaAuxiliar, tamano, aux, rangoMinimo, rangoMaximo, nElementosRango = 0,
-        nValorBuscado = 0, valorBuscado, nValoresDiferentes = 1;
+    int entradaAuxiliar, tamano, auxiliar, nElementosRango = 0, nValorBuscado = 0, valorBuscado, nValoresDiferentes = 1;
 
     /**
      * 
-     * 1. Generacion de la muestra aleatoria mediante la funcion rand()
+     * 1. Generacion de la muestra aleatoria mediante la funcion rand().
      * 
      */
 
@@ -35,7 +34,7 @@ int main(){
        
         /**
          * 
-         * Limite inferior = 1
+         * Limite inferior = 1.
          * Limite superior = entradaAuxiliar, valor definido por el usuario.
          * En cada bucle se generara un valor aleatorio entre los limites definidos.
          * 
@@ -46,7 +45,7 @@ int main(){
 
         /**
          * 
-         * Impresion de la muestra generada en forma de vector
+         * Impresion de la muestra generada en forma de vector.
          * 
          */
 
@@ -58,6 +57,7 @@ int main(){
     /**
      * 
      * 2. Logica de la selección de metodos de ordenamiento.
+     * 
      * La variable entradaAuxiliar en esta seccion desempeñara ser la seleccion de metodo de 
      * ordenmaiento de preferencia del usuario.
      * 
@@ -68,18 +68,44 @@ int main(){
     cout << "Escoja el metodo de odenamiento de su preferencia: "; cin >> entradaAuxiliar;
 
     switch (entradaAuxiliar){
+
+        /**
+         * 
+         * Metodo de inserción.
+         * 
+         * En este metodo se va comparando aquellas zonas ya ordenadas con la posicion siguida a su limite superior, 
+         * es decir, al indice mayor que esta ordenado + 1. Si el limite superior es mayor de la posicion seguida, 
+         * mediante una variable auxiliar se intercambia con el valor de la posicion seguida con el del limite superior, 
+         * sucesivamente esta operacion se repite hasta que la posicion seguida al limite superior sea menor con 
+         * respecto al ultimo elemento ordenado encontrado y lo intercambia gracias la variable de control 
+         * indice.
+         * 
+         */
+
         case 1:
             int indice;
             for(int i = 0; i < tamano; i++){
-                aux = muestra[i];
+                auxiliar = muestra[i];
                 indice = i;
-                while (indice > 0 && (muestra[indice - 1] > aux)){
+                while (indice > 0 && (muestra[indice - 1] > auxiliar)){
                     muestra[indice] = muestra[indice - 1];
                     indice--;
                 }
-                muestra[indice] = aux;
-            }
-            break;
+                muestra[indice] = auxiliar;
+            } break;
+
+        /**
+         * 
+         * Metodo de selección.
+         * 
+         * Este metodo rastrea el indice del elemento menor de la lista ordenando sucesivamente de menor a moyor, 
+         * bajo esta condición, una vez se halla el menor elemento en la iteración se procede a intercambiar posiciones 
+         * con el indice que pasa por la variable de control que se almacena en una variable auxiliar, teniendo en 
+         * cuenta, que aquellos elementos ordenados no los vuelve a comparar debido que en ciclo anidado no rastrea los 
+         * elementos ya pasados en el ciclo padre el cual da control sobre los elementos ya odenados.
+         * 
+         */
+
         case 2:
             int minimoSucesivo;
             for(int i = 0; i < tamano; i++){
@@ -89,46 +115,71 @@ int main(){
                         minimoSucesivo = j;
                     }
                 }
-                aux = muestra[i];
+                auxiliar = muestra[i];
                 muestra[i] = muestra[minimoSucesivo];
-                muestra[minimoSucesivo] = aux;
-            }
-            break;
+                muestra[minimoSucesivo] = auxiliar;
+            } break;
+
+        /**
+         * 
+         * Metodo de intercambio.
+         * 
+         * Este metodo usa una serie de combinatorias basada en el tamaño del arreglo, donde se repite a la n veces 
+         * por su tamaño, donde en cada iteracion compara el elememto referenciado por la variable de control con el 
+         * elemento que lo sigue, donde si el elemento que lo sigue es menor comparado con el referenciado entonces
+         * se hace un intercambio de posiciones con la ayuda de una variable auxiliar que perimite el reemeplazo. 
+         * 
+         */
+
         case 3:
             for(int i = 0; i < tamano; i++){
                 for (int j = 0; j < tamano; j++){
                     if(muestra[j] > muestra[j + 1]){
-                        aux = muestra[j];
+                        auxiliar = muestra[j];
                         muestra[j] = muestra[j + 1];
-                        muestra[j + 1] = aux;
+                        muestra[j + 1] = auxiliar;
                     }
                 }
-            }
-            break;
+            } break;
         default:
-            cout << "Opcion Invalida" << endl;
-            break;
+            cout << "Opcion Invalida" << endl; break;
     }
 
     cout << "Muestra Aleatoria Ordenada: (";
+    
     for(int i = 0; i < tamano; i++){
-            if(i == tamano - 1) cout << muestra[i] << ")" << endl;
-            else cout << muestra[i] << ", ";
-        }
+        if(i == tamano - 1) cout << muestra[i] << ")" << endl;
+        else cout << muestra[i] << ", ";
+    }
 
-    // 3. Calculo de la cantidad de elementos dentro del rango especificado
+    /**
+     * 
+     * 3. Calculo del numero de elementos que se encuentran en un rango dentro de la muestra ordenanda
+     * 
+     * La variable entradaAuxiliar y auxiliar desmepañaran en esta sección del algoritmo la entrada de valores
+     * para el rango minimo y rango maximo.
+     * 
+     */
 
     cout << "<---------------------------------------------------------------->" << endl;
-    cout << "Digite el rango minimo: "; cin >> rangoMinimo;
-    cout << "Digite el rango maximo: "; cin >> rangoMaximo;
+    cout << "Digite el rango minimo: "; cin >> entradaAuxiliar; 
+    cout << "Digite el rango maximo: "; cin >> auxiliar;
+
+
+    /**
+     * 
+     * Establecido el rango por el usuario se procede a contar la cantidad de elementos bajo la condicion de que
+     * si el elemento indicado por la variable de control esta contenido en el rango minino y rango maximo.
+     * 
+     */
 
     for(int i = 0; i < tamano; i++){
-        if(muestra[i] >= rangoMinimo && muestra[i] <= rangoMaximo){
+        if(muestra[i] >= entradaAuxiliar&& muestra[i] <= auxiliar){
             nElementosRango++;
         }
     }
 
-    cout << "En el rango [" << rangoMinimo << " - " << rangoMaximo << "] se encuentran " << nElementosRango << " elementos." << endl;
+    cout << "En el rango [" << entradaAuxiliar << " - " << auxiliar << "] se encuentran " << nElementosRango << " elementos." << endl;
 
     // 4. Calculo de la cantidad del valor buscado.
 
