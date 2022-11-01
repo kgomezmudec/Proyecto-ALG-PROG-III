@@ -16,7 +16,7 @@ int main(){
      * 
      */
 
-    int entradaAuxiliar, tamano, auxiliar, nElementosRango = 0, nValorBuscado = 0, valorBuscado, nValoresDiferentes = 1;
+    int entradaAuxiliar, tamano, auxiliar, nElementosRango = 0;
 
     /**
      * 
@@ -157,7 +157,7 @@ int main(){
      * 3. Calculo del numero de elementos que se encuentran en un rango dentro de la muestra ordenanda
      * 
      * La variable entradaAuxiliar y auxiliar desmepañaran en esta sección del algoritmo la entrada de valores
-     * para el rango minimo y rango maximo.
+     * para el rango minimo y el rango maximo.
      * 
      */
 
@@ -165,79 +165,103 @@ int main(){
     cout << "Digite el rango minimo: "; cin >> entradaAuxiliar; 
     cout << "Digite el rango maximo: "; cin >> auxiliar;
 
-
-    /**
-     * 
-     * Establecido el rango por el usuario se procede a contar la cantidad de elementos bajo la condicion de que
-     * si el elemento indicado por la variable de control esta contenido en el rango minino y rango maximo.
-     * 
-     */
-
     for(int i = 0; i < tamano; i++){
-        if(muestra[i] >= entradaAuxiliar&& muestra[i] <= auxiliar){
+        if(muestra[i] >= entradaAuxiliar && muestra[i] <= auxiliar){
             nElementosRango++;
         }
     }
 
     cout << "En el rango [" << entradaAuxiliar << " - " << auxiliar << "] se encuentran " << nElementosRango << " elementos." << endl;
 
-    // 4. Calculo de la cantidad del valor buscado.
+    /**
+     * 
+     * 4. Calculo de la cantidad del valor buscado.
+     * 
+     * La variable entradaAuxiliar desempeneñara la entrada del valor a buscar, mientras que la variable auxiliar se 
+     * reasignara para cumplir la funcion de contador del valor a buscar.
+     * 
+     */
+
+    auxiliar = 0;
 
     cout << "<---------------------------------------------------------------->" << endl;
-    cout << "Digite el valor de muestra que desea conocer cuanto se repite: "; cin >> valorBuscado;
+    cout << "Digite el valor de muestra que desea conocer cuanto se repite: "; cin >> entradaAuxiliar;
 
     for(int i = 0; i < tamano; i++){
-        if (muestra[i] == valorBuscado){
-            nValorBuscado++;
+        if (muestra[i] == entradaAuxiliar){
+            auxiliar++;
         }
     }
 
-    cout << "El valor " <<  valorBuscado << " esta " << nValorBuscado << " veces en la muestra." << endl;
+    cout << "El valor " <<  entradaAuxiliar << " esta " << auxiliar << " veces en la muestra." << endl;
 
-    // 5. Calculo del numero de valores distintos en la muestra ordenada.
+    /**
+     * 
+     * 5. Calculo del numero de valores distintos en la muestra ordenada.
+     * 
+     * Primeramente debemos tener en cuenta que la muestra debe estar ordenada para encontrar aquellos valores 
+     * distintos. Al recorrer sobre la muestra se evidencia un patron de que los numeros que se siguen pueden ser 
+     * iguales o no. Con este metodo propuesto se busca recorrer de manera lineal la muestra, cuando un elemento 
+     * difiera con el de su siguiente posicion se contabiliza el elemento encontrado y esta posicion sera almacenada 
+     * para volver a contabilizar los elementos siguientes a este y seguir con el recorrido, de tal manera se llegara a
+     * la ultima poscion concluyendo con un conteo preciso de los diferentes valores dentro la muestra.
+     * 
+     * Nota: En esta seccion del algoritmo la variable entradaAuxiliar tendra la funcion de hacer el conteo de los 
+     * diferentes valores, su valor sera reasignado a 1 debido que al pasar por el primer valor se sobreentiende que es 
+     * el primer elemento a diferenciar. La varianble auxiliar tendra el papel de tener el control sobre los recorridos
+     * al encontrarse valores diferentes, su valor sera reasignoado a 0 para dar arranque y puede mutar variando de 
+     * acuerdo a lo que ocurra en las validaciones.
+     * 
+     */
 
     cout << "<---------------------------------------------------------------->" << endl;
-
-    int i = 0, control = 0;
     
-    do{ 
-        for(int j = control; j < tamano; j++){
-            if (muestra[i] != muestra[j]){
-                nValoresDiferentes++;
-                i = j;
-                control = j;
-                break;
-            }else{
-                if(j == tamano - 1){
-                    i++;
-                }
-            }
-        }
-        if(i == tamano - 1){
-            i++;
-        }
-    }while(i < tamano);
-
-    cout << "En la muestra hay " << nValoresDiferentes << " valores diferentes." << endl;
-
-    // 6. Calculo del valor que más veces aparece en la muestra ordenada.
-
-    cout << "<---------------------------------------------------------------->" << endl;
-
-    int contador = 0, conteoMayor = 0, valorModa;
-
-    control = 0;
+    entradaAuxiliar = 1; auxiliar = 0;
 
     for(int i = 0; i < tamano; i++){
-        for(int j = control; j < tamano; j++){
+        for(int j = auxiliar; j < tamano; j++){
+            if(muestra[i] != muestra[j]){
+                entradaAuxiliar++;
+                i = j - 1;
+                auxiliar = j;
+                break;
+            }
+        }
+    }
+
+    cout << "En la muestra hay " << entradaAuxiliar << " valores diferentes." << endl;
+
+    /**
+     * 
+     * 6. Calculo del valor que más veces aparece en la muestra ordenada.
+     * 
+     * Con los valores de muestra ordenados se recorrera cada uno de los elementos que sean iguales y se contabilizaran 
+     * para luego ser comparados, en caso de que una nueva contabilizacion sea mayor que la anterior la moda mutara a 
+     * la que sea mayor. Se aplicara la logica del punto 5 en cierta medida.
+     * 
+     * Al final del programa se tendra el valor que mayor se contabilizo con respecto a los demas dentro la muestra.
+     * 
+     * Nota: La variable auxiliar desempeñara el control de los recorridos en aquellos valores que difieran para brindar 
+     * la contabilización de los demas valores. Mientras que la variable entradaAuxiliar contabilizara la repeticion de 
+     * un valor en un instante de la muestra. Este valor sera comparado mas adelante con el valor de la moda vigente 
+     * hasta el momento de la iteración.
+     *
+     */
+
+    cout << "<---------------------------------------------------------------->" << endl;
+
+    int conteoMayor = 0, valorModa; auxiliar = 0; entradaAuxiliar = 0;
+
+    for(int i = 0; i < tamano; i++){
+        for(int j = auxiliar; j < tamano; j++){
             if(muestra[i] == muestra[j]){
-                contador++;
+                entradaAuxiliar++;
             }else{
-                if(contador > conteoMayor){
-                    conteoMayor = contador;
+                if(entradaAuxiliar > conteoMayor){
+                    conteoMayor = entradaAuxiliar;
                     valorModa = muestra[j];
                 }
-                control = j;
+                auxiliar = j;
                 i = j - 1;
                 break;
             }
@@ -246,7 +270,11 @@ int main(){
 
     cout << "El valor que mas se repite en la muestra es " << valorModa  << "."<< endl;
 
-    // 7. Estadistica de la muestra no ordenada, incluyendo el mayor valor, el menor valor y el promedio.
+    /**
+     * 
+     * 7. Estadistica de la muestra no ordenada, incluyendo el mayor valor, el menor valor y el promedio.
+     * 
+     */
 
     cout << "<---------------------------------------------------------------->" << endl;
 
@@ -255,6 +283,8 @@ int main(){
         if (i == tamano - 1) cout << muestraOriginal[i] << ")" << endl;
         else cout << muestraOriginal[i] << ", ";
     }
+
+    
     
 
     return 0;
