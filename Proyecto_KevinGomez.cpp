@@ -278,14 +278,66 @@ int main(){
 
     cout << "<---------------------------------------------------------------->" << endl;
 
+    /**
+     * 
+     * Impresion de la muestra original
+     * 
+     */
+
     cout << "(";
     for (int i = 0; i < tamano; i++){
         if (i == tamano - 1) cout << muestraOriginal[i] << ")" << endl;
         else cout << muestraOriginal[i] << ", ";
     }
 
+    /**
+     * 
+     * Impresion del valor mayor.
+     * 
+     * La variable auxiliar en esta seccion del algoritmo almacenara el valor mayor en el recorrido parcial del 
+     * bucle que este a su ves permitira comparación de valores entrantes, con el fin de hallar el numero mayor.
+     * 
+     */
     
+    for(int i = 0; i < tamano; i++){
+        if(i == 0) auxiliar = muestraOriginal[i];
+        else if(muestraOriginal[i] > auxiliar) auxiliar = muestraOriginal[i];
+    }
+
+    cout << "El mayor valor de la muestra es " << auxiliar << endl;
+
+    /**
+     * 
+     * Impresion del valor menor.
+     * 
+     * La variable auxiliar en esta seccion del algoritmo almacenara el valor menor en el recorrido parcial del 
+     * bucle que este a su ves permitira comparación de valores entrantes, con el fin de hallar el numero menor.
+     * 
+     */
     
+    for(int i = 0; i < tamano; i++){
+        if(i == 0) auxiliar = muestraOriginal[i];
+        else if(muestraOriginal[i] < auxiliar) auxiliar = muestraOriginal[i];
+    }
+
+    cout << "El menor valor de la muestra es " << auxiliar << endl;
+
+    /**
+     * 
+     * Impresion del promedio.
+     * 
+     * La variable auxiliar en esta seccion del algoritmo almacenara la suma de los valores de la muestra como un 
+     * acumulador dentro del bucle, por ende la variable se reasignara con 0.
+     * 
+     */
+    
+    auxiliar = 0;
+
+    for(int i = 0; i < tamano; i++){
+        auxiliar += muestraOriginal[i];
+    }
+
+    cout << "El promedio de valores de la muestra es " << (double) auxiliar / (double) tamano << endl;
 
     return 0;
     getch();
